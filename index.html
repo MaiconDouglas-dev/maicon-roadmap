@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap do Maicon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #16181d; --muted: #646b78; --line: #e3e6eb;
+    --accent: #e8590c; --accent-soft: #fff1e8; --done: #2b8a3e; --done-soft: #ebfbee;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1115; --card: #171a21; --text: #e8eaee; --muted: #9098a6; --line: #262b35;
+      --accent: #ff8a3d; --accent-soft: #2a1b10; --done: #51cf66; --done-soft: #12251a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 Inter, system-ui, sans-serif; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 32px 16px 64px; }
+  header h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header h1 span { color: var(--accent); }
+  header p { color: var(--muted); margin: 0 0 20px; }
+  .overall { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 20px; }
+  .overall .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .overall strong { font-size: 22px; }
+  .bar { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; margin-top: 10px; }
+  .bar > i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+  .tools { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  button, .btn { font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line);
+    background: var(--card); color: var(--text); cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  .section { margin-top: 28px; }
+  .section h2 { font-size: 18px; margin: 0; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .section h2 small { font: 500 13px 'JetBrains Mono', monospace; color: var(--muted); }
+  .section > p { color: var(--muted); margin: 4px 0 12px; }
+  details.week { background: var(--card); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; }
+  details.week.focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  details.week.complete summary .count { color: var(--done); }
+  summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary .tag { font: 500 12px 'JetBrains Mono', monospace; color: var(--accent); background: var(--accent-soft);
+    padding: 2px 8px; border-radius: 6px; white-space: nowrap; }
+  summary .title { flex: 1; font-weight: 600; }
+  summary .count { font: 500 13px 'JetBrains Mono', monospace; color: var(--muted); }
+  summary .chev { transition: transform .2s; color: var(--muted); }
+  details[open] summary .chev { transform: rotate(90deg); }
+  .week-body { padding: 0 16px 12px; }
+  .week-body .link { font-size: 12px; color: var(--muted); }
+  .topic { border-top: 1px solid var(--line); padding: 10px 0; }
+  .topic label { display: flex; gap: 10px; align-items: center; cursor: pointer; font-weight: 500; }
+  .topic input { width: 18px; height: 18px; accent-color: var(--done); flex-shrink: 0; }
+  .topic.done label span { color: var(--muted); text-decoration: line-through; }
+  .res { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0 28px; }
+  .res a { font-size: 12.5px; color: var(--text); text-decoration: none; border: 1px solid var(--line);
+    padding: 3px 8px; border-radius: 6px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .res a:hover { border-color: var(--accent); color: var(--accent); }
+  .res a em { font-style: normal; color: var(--muted); margin-left: 4px; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 13px; text-align: center; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Roadmap do <span>Maicon</span></h1>
+    <p>24 semanas rumo a Java Backend: fundamentos, algoritmos, backend e system design.</p>
+  </header>
+
+  <div class="overall">
+    <div class="row">
+      <div><strong id="pct">0%</strong> concluído</div>
+      <div id="totals" class="link"></div>
+    </div>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="tools">
+      <button id="expand">Expandir tudo</button>
+      <button id="collapse">Recolher tudo</button>
+      <button id="export">Exportar progresso</button>
+      <label class="btn">Importar progresso<input id="import" type="file" accept="application/json" hidden></label>
+      <button id="reset">Zerar</button>
+    </div>
+  </div>
+
+  <main id="app"></main>
+
+  <footer>
+    Tópicos e links baseados no roadmap do
+    <a href="https://ganeko-roadmap.vercel.app" target="_blank" rel="noopener">Ganeko</a>.
+    Seu progresso fica salvo neste navegador.
+  </footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+  const KEY = "maicon-roadmap-progress";
+  const slug = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const weekId = n => "semana-" + String(n).padStart(2, "0");
+
+  let progress = {};
+  try { progress = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(progress)); } catch (e) {} };
+
+  const app = document.getElementById("app");
+  const categories = [...new Set(WEEKS.map(w => w[1]))];
+
+  function render() {
+    app.innerHTML = "";
+    categories.forEach((cat, i) => {
+      const sec = document.createElement("section");
+      sec.className = "section";
+      sec.innerHTML = `<h2>${cat} <small data-cat="${cat}"></small></h2><p>${SECTIONS[cat] || ""}</p>`;
+      WEEKS.filter(w => w[1] === cat).forEach(([num, , title, topics]) => {
+        const id = weekId(num);
+        const d = document.createElement("details");
+        d.className = "week";
+        d.id = id;
+        d.innerHTML = `<summary><span class="tag">SEMANA ${String(num).padStart(2, "0")}</span>
+          <span class="title">${title}</span><span class="count"></span><span class="chev">›</span></summary>
+          <div class="week-body"></div>`;
+        const body = d.querySelector(".week-body");
+        topics.forEach(([name, res]) => {
+          const tid = id + "-" + slug(name);
+          const t = document.createElement("div");
+          t.className = "topic" + (progress[tid] ? " done" : "");
+          t.innerHTML = `<label><input type="checkbox" data-id="${tid}" ${progress[tid] ? "checked" : ""}>
+            <span>${name}</span></label><div class="res">${res.map(r => {
+              const [rn, type, url] = RESOURCES[r];
+              return `<a href="${url}" target="_blank" rel="noopener" title="${rn}">${rn}<em>${type}</em></a>`;
+            }).join("")}</div>`;
+          body.appendChild(t);
+        });
+        d.querySelector("summary").addEventListener("click", () => {
+          const url = new URL(location);
+          if (!d.open) url.searchParams.set("topic", id); else url.searchParams.delete("topic");
+          history.replaceState(null, "", url);
+        });
+        sec.appendChild(d);
+      });
+      app.appendChild(sec);
+    });
+    updateCounts();
+  }
+
+  function updateCounts() {
+    let total = 0, done = 0;
+    const perCat = {};
+    WEEKS.forEach(([num, cat, , topics]) => {
+      const id = weekId(num);
+      const ids = topics.map(([n]) => id + "-" + slug(n));
+      const d = ids.filter(x => progress[x]).length;
+      const el = document.getElementById(id);
+      el.querySelector(".count").textContent = `${d}/${ids.length}`;
+      el.classList.toggle("complete", d === ids.length);
+      perCat[cat] = perCat[cat] || [0, 0];
+      perCat[cat][0] += d; perCat[cat][1] += ids.length;
+      total += ids.length; done += d;
+    });
+    document.querySelectorAll("[data-cat]").forEach(s => {
+      const [d, t] = perCat[s.dataset.cat]; s.textContent = `${d}/${t}`;
+    });
+    const pct = total ? Math.round(done / total * 100) : 0;
+    document.getElementById("pct").textContent = pct + "%";
+    document.getElementById("bar").style.width = pct + "%";
+    document.getElementById("totals").textContent = `${done} de ${total} tópicos`;
+  }
+
+  app.addEventListener("change", e => {
+    const id = e.target.dataset.id;
+    if (!id) return;
+    if (e.target.checked) progress[id] = true; else delete progress[id];
+    e.target.closest(".topic").classList.toggle("done", e.target.checked);
+    save(); updateCounts();
+  });
+
+  document.getElementById("expand").onclick = () => document.querySelectorAll("details.week").forEach(d => d.open = true);
+  document.getElementById("collapse").onclick = () => document.querySelectorAll("details.week").forEach(d => d.open = false);
+  document.getElementById("reset").onclick = () => {
+    if (confirm("Zerar todo o progresso?")) { progress = {}; save(); render(); }
+  };
+  document.getElementById("export").onclick = () => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(progress, null, 2)], { type: "application/json" }));
+    a.download = "roadmap-progresso.json";
+    a.click();
+  };
+  document.getElementById("import").onchange = async e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    try { progress = JSON.parse(await f.text()); save(); render(); } catch (err) { alert("Arquivo inválido."); }
+    e.target.value = "";
+  };
+
+  render();
+
+  const focus = new URLSearchParams(location.search).get("topic");
+  const target = focus && document.getElementById(focus);
+  if (target) {
+    target.open = true;
+    target.classList.add("focus");
+    target.scrollIntoView({ block: "start" });
+  }
+</script>
+</body>
+</html>
