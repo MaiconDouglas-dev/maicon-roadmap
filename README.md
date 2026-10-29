@@ -11,6 +11,8 @@ Um mapa interativo de estudos com progresso salvo, materiais por tópico e visua
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
+### 🌐 [Acessar o site → maicon-roadmap.vercel.app](https://maicon-roadmap.vercel.app)
+
 </div>
 
 <br>
@@ -41,6 +43,8 @@ Um mapa interativo de estudos com progresso salvo, materiais por tópico e visua
 O **Roadmap do Maicon** organiza meus estudos para vagas de **Java Backend** em um mapa visual. São seis grandes áreas, que vão dos fundamentos de computação até System Design. Cada tópico tem materiais selecionados: vídeos, cursos e documentação.
 
 O objetivo é simples: saber sempre **o que já estudei**, **o que vem a seguir** e **onde estudar cada assunto**.
+
+🔗 **Site no ar:** https://maicon-roadmap.vercel.app
 
 ---
 
